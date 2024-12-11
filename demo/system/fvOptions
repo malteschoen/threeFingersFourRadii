@@ -21,7 +21,7 @@ velocitySink
     active          true;
     selectionMode   cellSet;
     cellSet	    surpressedSet;
-    volumeMode	    absolute;
+    volumeMode	    specific;
  
     
         sources
@@ -29,7 +29,7 @@ velocitySink
             U     
 		{
 		explicit (0 0 0);
-		implicit -1e2;
+		implicit -1e7;
 		}
         }
     

@@ -16,7 +16,7 @@ FoamFile
 
 
 //number of cells you can fit in the RAM of your simulation machine
-cellBudget 5e3;
+cellBudget 5e4;
 
 //geometric parameters of calculation space in x-axis
 xMin	-2;

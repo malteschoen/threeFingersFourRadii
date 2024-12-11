@@ -19,20 +19,20 @@ FoamFile
     inlet
     {
         type            patch;
-        nFaces          480;
-        startFace       12012;
+        nFaces          2349;
+        startFace       136311;
     }
     outlet
     {
         type            patch;
-        nFaces          480;
-        startFace       12492;
+        nFaces          2349;
+        startFace       138660;
     }
     defaultName
     {
         type            patch;
-        nFaces          936;
-        startFace       12972;
+        nFaces          4560;
+        startFace       141009;
     }
 )
 
