@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  dev                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+ 
+/*velocitySink_OF9
+{
+    type            semiImplicitSource;
+    active          true;
+    selectionMode   cellSet;
+    cellSet	    surpressedSet;
+    volumeMode	    specific;
+ 
+    
+        sources
+        {
+            U     
+		{
+		explicit (0 0 0);
+		implicit -1e7;
+		}
+        }
+    
+}
+*/ 
+
+velocitySink_OF6
+{
+    type            vectorSemiImplicitSource;
+    active          true;
+    selectionMode   cellSet;
+    cellSet	    surpressedSet;
+    volumeMode	    specific;
+
+    injectionRateSuSp
+        {
+            U     ((0 0 0) -1e7);
+        }
+    
+}
+ 
+// ************************************************************************* //

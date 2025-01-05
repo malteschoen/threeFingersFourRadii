@@ -20,13 +20,6 @@ dimensionedScalar rho
 );
 
 
-dimensionedScalar NewtonianNu
-(
-    "NewtonianNu",
-    dimViscosity,
-    transportProperties.lookup("nu")
-);
-
 Info<< "Reading fields\n" << endl;
 
 volScalarField p

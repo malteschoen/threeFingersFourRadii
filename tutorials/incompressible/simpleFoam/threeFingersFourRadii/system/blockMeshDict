@@ -1,0 +1,126 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+//number of cells you can fit in the RAM of your simulation machine
+cellBudget 5e4;
+
+//geometric parameters of calculation space in x-axis
+xMin	-2;
+xMax	72;
+xDiff	#calc "$xMax - $xMin";
+
+//geometric parameters of calculation space in y-axis
+yMin	-1;
+yMax 	23;
+yDiff	#calc "$yMax - $yMin";
+
+//geometric parameters of calculation space in z-axis
+//zMin	-25.75;
+zMin 	1;
+zMax	19;
+zDiff	#calc "$zMax - $zMin";
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - 
+//- - - - - - - - - - - - -everything below here is off-limits- - - - - - - - - - - - 
+//- - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - 
+
+//all parameters are given in milimetres
+convertToMeters 1e-3;
+
+#calc "Info << $xDiff << endl << $yDiff  << endl << $zDiff << endl";
+
+//express everything in percent - dont ask why
+fixer 100;
+
+//express the total dimensions relative to the x-dimensionin percent;
+dimensionalRelationBetweenXandX #calc "$fixer * $xDiff / $xDiff";
+dimensionalRelationBetweenYandX #calc "$fixer * $yDiff / $xDiff";
+dimensionalRelationBetweenZandX #calc "$fixer * $zDiff / $xDiff";
+
+#calc "Info << $dimensionalRelationBetweenXandX << endl << $dimensionalRelationBetweenYandX << endl << $dimensionalRelationBetweenZandX << endl";
+
+dimensionalRelationProduct #calc "$dimensionalRelationBetweenXandX*$dimensionalRelationBetweenYandX*$dimensionalRelationBetweenZandX";
+//#calc "Info << $dimensionalRelationProduct  << endl";
+
+//nonCubicRootedBudget is the total budget set aside for the x-direction
+//its corrected by dimensionalRelationProduct for the fact that not all spatial dimensions are equally contributing (e.g. z-direction might have far fewer cells)
+//also, cubic root has not been applied yet
+nonCubicRootedBudget #calc "$cellBudget / $dimensionalRelationProduct * $fixer * $fixer * $fixer";
+//#calc "Info << $nonCubicRootedBudget << endl";
+
+cellsX		#calc "round(std::pow($nonCubicRootedBudget,(0.3333333333)))";
+cellsY		#calc "round($cellsX * $dimensionalRelationBetweenYandX / $fixer)";
+cellsZ		#calc "round($cellsX * $dimensionalRelationBetweenZandX / $fixer)";
+
+#calc "Info << $cellsX<< endl << $cellsY<< endl << $cellsZ<< endl";
+
+vertices
+(
+    	name A0 ($xMin 		$yMin 		$zMin)
+    	name A1 ($xMax 		$yMin 		$zMin)
+    	name A2 ($xMin  	$yMax 		$zMin)
+    	name A3 ($xMax 		$yMax 		$zMin)
+	
+    	name B0 ($xMin  	$yMin 		$zMax)
+   	name B1 ($xMax 		$yMin 		$zMax)
+   	name B2 ($xMin  	$yMax 		$zMax)
+	name B3 ($xMax		$yMax 		$zMax)
+);
+
+blocks
+(
+    hex (A0 A1 A3 A2 B0 B1 B3 B2) ($cellsX $cellsY $cellsZ) simpleGrading (1 1 1)
+);
+
+edges
+(
+    //arc 0 5 (0.00092387 0.00038268 0)
+);
+
+defaultPatch
+{
+    name defaultName;
+    type patch;
+}  
+
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+			(A0 A1 A3 A2)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+			(B0 B1 B3 B2)
+        );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
