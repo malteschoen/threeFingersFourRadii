@@ -18,7 +18,7 @@ Figure 3 shows the numerically obtained distribution of shear stress at the appr
 ![figure3](https://github.com/malteschoen/threeFingersFourRadii/blob/main/media/figure3.png)
 
 Figure 4 shows that by matching big and small radii at each finger, overall melt velocity distribution is homogenous.
-[figure4](https://github.com/malteschoen/threeFingersFourRadii/blob/main/media/figure4.png)
+![figure4](https://github.com/malteschoen/threeFingersFourRadii/blob/main/media/figure4.png)
 
 
 # Some tabulated data 
