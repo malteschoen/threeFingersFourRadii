@@ -2,38 +2,28 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Version:  9
+    \\  /    A nd           | Version:  7
      \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
+    version     2.0;
     format      ascii;
-    class       polyBoundaryMesh;
-    location    "constant/polyMesh";
-    object      boundary;
+    class       dictionary;
+    location    "1000/uniform";
+    object      time;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-3
-(
-    inlet
-    {
-        type            patch;
-        nFaces          2349;
-        startFace       136311;
-    }
-    outlet
-    {
-        type            patch;
-        nFaces          2349;
-        startFace       138660;
-    }
-    defaultName
-    {
-        type            patch;
-        nFaces          4560;
-        startFace       141009;
-    }
-)
+value           1000;
+
+name            "1000";
+
+index           1000;
+
+deltaT          1;
+
+deltaT0         1;
+
 
 // ************************************************************************* //
